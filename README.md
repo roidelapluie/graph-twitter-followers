@@ -1,7 +1,7 @@
-# Graph Twitter followers with Prometheus and Grafana
+# Graphing Twitter followers with Prometheus and Grafana
 
-This is an examples about graphing your twitter followers with Twitter and
-Grafana.
+This is an json_exporter setup that enables you to graph your twitter followers
+with Prometheus and Grafana.
 
 ![Example panel about Twitter Followers](grafana.png)
 
