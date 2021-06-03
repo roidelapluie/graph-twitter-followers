@@ -1,0 +1,9 @@
+---
+metrics:
+- name: twitter_followers
+  path: "{ .data.public_metrics.followers_count }"
+  labels:
+    username: '{.data.username}'
+  help: Number of twitter followers.
+http_client_config:
+  bearer_token_file: twitter-bearer

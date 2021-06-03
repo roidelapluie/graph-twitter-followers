@@ -1,0 +1,33 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'json_probe'
+    # /probe is the endpoint that probes JSON endpoints.
+    metrics_path: /probe
+    params:
+    relabel_configs:
+    # First relabeling rule will turn the list of targets into the http parameter called `target`.
+    - source_labels: [__address__]
+      target_label: __param_target
+      # API endpoint of the twitter API. We are injecting the username as parameter ($1).
+      replacement: "https://api.twitter.com/2/users/by/username/$1?user.fields=public_metrics"
+    # Ensure unique instance label. At this point, __address__ still contains the usernames.
+    - source_labels: [__address__]
+      target_label: instance
+    # Next relabeling rule will change the actual scrape target to 127.0.0.1:7979.
+    - target_label: __address__
+      replacement: 'localhost:7979'
+    scrape_interval: 30s
+    static_configs:
+    - targets:
+      # List of usernames.
+      - roidelapluie
+      - prometheusio
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+  - job_name: 'json_exporter'
+    static_configs:
+    - targets: ['localhost:7979']
